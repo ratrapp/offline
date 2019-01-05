@@ -26,3 +26,5 @@ yarn-error.log*
 *.provisionprofile
 resources/
 release/
+renderer/out/
+renderer/.next/

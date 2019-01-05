@@ -1,8 +1,8 @@
 {
   "name": "offline",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "main": "public/electron.js",
+  "main": "main/index.js",
   "author": {
     "email": "connor@dotconnor.com",
     "name": "Connor Love",
@@ -21,8 +21,8 @@
   "scripts": {
     "start": "run-p react:start electron:start",
     "build": "run-s clean react:build electron:build",
-    "react:start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
-    "react:build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+    "react:start": "next renderer",
+    "react:build": "next build renderer && next export renderer",
     "clean": "rm -rf ./release",
     "electron:start": "wait-on http-get://localhost:3000/ && electron . --serve",
     "electron:build": "electron-builder build -m --publish always"
@@ -40,6 +40,7 @@
     "cross-env": "^5.2.0",
     "electron": "^4.0.0-beta.11",
     "electron-builder": "^20.38.4",
+    "next": "^7.0.2",
     "npm-run-all": "^4.1.5",
     "react": "^16.7.0",
     "react-app-rewire-styled-components": "^3.0.2",

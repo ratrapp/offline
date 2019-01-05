@@ -1,25 +1,25 @@
-const { remote } = require('electron');
+const { remote } = require('electron')
 
 if (process.platform == 'darwin') {
-  const { systemPreferences } = remote;
+  const { systemPreferences } = remote
 
   const setOSTheme = () => {
-    const theme = systemPreferences.isDarkMode() ? 'dark' : 'light';
-    window.localStorage.os_theme = theme;
-    console.log(theme);
+    const theme = systemPreferences.isDarkMode() ? 'dark' : 'light'
+    window.localStorage.os_theme = theme
+    console.log(theme)
     //
     // Defined in index.html, so undefined when launching the app.
     // Will be defined for `systemPreferences.subscribeNotification` callback.
     //
     if ('__setTheme' in window) {
-      window.__setTheme();
+      window.__setTheme()
     }
-  };
+  }
 
   systemPreferences.subscribeNotification(
     'AppleInterfaceThemeChangedNotification',
     setOSTheme,
-  );
+  )
 
-  setOSTheme();
+  setOSTheme()
 }

@@ -5,11 +5,12 @@ directories:
   buildResources: resources
   output: release
 files:
-  - /app
-  - /build
+  - /main
+  - /renderer/out
   - package.json
 artifactName: offline-${version}.${ext}
 mac:
+  darkModeSupport: true
   category: public.app-category.productivity
   provisioningProfile: embedded.provisionprofile
   target:

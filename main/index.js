@@ -1,15 +1,11 @@
-const electron = require('electron'); //eslint-disable-line
+const electron = require('electron') //eslint-disable-line
 const path = require('path')
+const { join } = path
 const dns = require('dns')
+const { format } = require('url')
 const { promisify } = require('util')
 const dnsLookup = promisify(dns.lookup)
-const {
-  app,
-  BrowserWindow,
-  systemPreferences,
-  ipcMain,
-  Tray
-} = electron
+const { app, BrowserWindow, systemPreferences, ipcMain, Tray } = electron
 
 const online = require('is-online')
 
@@ -27,7 +23,7 @@ autoUpdater.logger = log
 let win
 let tray
 const args = process.argv.slice(1)
-const serve = args.some(val => val === '--serve')
+const serve = args.some((val) => val === '--serve')
 require('electron-debug')()
 
 const setTheme = () => {
@@ -56,14 +52,22 @@ app.setAppUserModelId('app.ratr.offline')
 app.on('ready', async () => {
   setTheme()
   if (systemPreferences.subscribeNotification) {
-    systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', setTheme)
+    systemPreferences.subscribeNotification(
+      'AppleInterfaceThemeChangedNotification',
+      setTheme,
+    )
   }
   autoUpdater.checkForUpdatesAndNotify()
-  tray = new Tray(path.join(__filename, '..', await online() ? './images/ThumbsUp.png' : './images/ThumbsDown.png'))
+  tray = new Tray(
+    path.join(
+      __dirname,
+      (await online()) ? './images/ThumbsUp.png' : './images/ThumbsDown.png',
+    ),
+  )
   tray.setToolTip('Offline')
   tray.on('click', (_, bounds) => {
     if (!win) {
-      createWindow(bounds.x - 150 + (bounds.width / 2), bounds.y)
+      createWindow(bounds.x - 150 + bounds.width / 2, bounds.y)
     } else {
       win.close()
     }
@@ -98,21 +102,21 @@ const updateStats = async () => {
     good = false
   }
   if (good) {
-    tray.setImage(path.join(__filename, '..', './images/ThumbsUp.png'))
+    tray.setImage(path.join(__dirname, './images/ThumbsUp.png'))
   } else {
-    tray.setImage(path.join(__filename, '..', './images/ThumbsDown.png'))
+    tray.setImage(path.join(__filen__dirnameame, './images/ThumbsDown.png'))
   }
   if (change) {
     const bounds = tray.getBounds()
-    createWindow(bounds.x - 150 + (bounds.width / 2), bounds.y)
+    createWindow(bounds.x - 150 + bounds.width / 2, bounds.y)
   }
   setTimeout(updateStats, 1000 * 10)
 }
 const stats = {
   internet: 0,
-  dns: 0
+  dns: 0,
 }
-function createWindow (x, y) {
+function createWindow(x, y) {
   const opts = {
     width: 300,
     height: 250,
@@ -122,20 +126,25 @@ function createWindow (x, y) {
     resizable: false,
     moveable: false,
     webPreferences: {
-      preload: path.resolve(__dirname, 'preload.js')
+      preload: path.resolve(__dirname, 'preload.js'),
     },
     frame: false,
-    show: false
+    show: false,
   }
   win = new BrowserWindow(opts)
   win.webContents.on('did-finish-load', () => {
     win.show()
   })
-  if (serve) {
-    win.loadURL('http://localhost:3000')
-  } else {
-    win.loadFile(path.join(__dirname, 'index.html'))
-  }
+  const url = serve
+    ? 'http://localhost:3000/'
+    : format({
+        pathname: join(__dirname, '../renderer/out/index.html'),
+        protocol: 'file:',
+        slashes: true,
+      })
+
+  win.loadURL(url)
+
   win.on('closed', () => {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
@@ -144,7 +153,7 @@ function createWindow (x, y) {
   })
   win.on('blur', () => {
     if (!serve) {
-      win.close()
+      //win.close()
     }
   })
 }
