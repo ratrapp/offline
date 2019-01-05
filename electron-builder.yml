@@ -1,0 +1,28 @@
+appId: app.ratr.offline
+productName: Offline
+copyright: Copyright © 2018 ${author}
+directories:
+  buildResources: resources
+  output: release
+files:
+  - /app
+  - /build
+  - package.json
+artifactName: janta-${version}.${ext}
+mac:
+  category: public.app-category.productivity
+  provisioningProfile: embedded.provisionprofile
+  target:
+    - zip
+mas:
+  entitlements: resources/entitlements.mas.plist
+  entitlementsInherit: resources/entitlements.mas.inherit.plist
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+publish:
+  provider: github
+  owner: ratrapp
+  repo: offline

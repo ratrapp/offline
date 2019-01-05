@@ -25,7 +25,18 @@
     <title>React App</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      window.__setTheme = () => {
+        let userTheme = localStorage.user_theme
+        let OSTheme = localStorage.os_theme
+        let defaultTheme = 'light'
+        document.documentElement.setAttribute(
+          'data-theme',
+          userTheme || OSTheme || defaultTheme,
+        )
+      }
+      __setTheme()
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

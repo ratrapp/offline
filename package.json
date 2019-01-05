@@ -2,16 +2,30 @@
   "name": "offline",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "author": {
+    "email": "connor@dotconnor.com",
+    "name": "Connor Love",
+    "url": "https://dotconnor.com"
+  },
+  "homepage": "./",
   "dependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-scripts": "2.1.2"
+    "electron-debug": "^2.0.0",
+    "electron-is-dev": "^1.0.1",
+    "electron-log": "^2.2.17",
+    "electron-store": "^2.0.0",
+    "electron-updater": "^4.0.4",
+    "electron-util": "^0.10.1",
+    "is-online": "^8.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "run-p react:start electron:start",
+    "build": "run-s clean react:build electron:build",
+    "react:start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+    "react:build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+    "clean": "rm -rf ./release",
+    "electron:start": "wait-on http-get://localhost:3000/ && electron . --serve",
+    "electron:build": "electron-builder build -m"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -21,5 +35,19 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "electron": "^4.0.0-beta.11",
+    "electron-builder": "^20.38.4",
+    "npm-run-all": "^4.1.5",
+    "react": "^16.7.0",
+    "react-app-rewire-styled-components": "^3.0.2",
+    "react-app-rewired": "^1.6.2",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.1",
+    "standard-esnext": "^5.2.1",
+    "styled-components": "^4.1.3",
+    "wait-on": "^3.2.0"
+  }
 }
