@@ -8,7 +8,7 @@ files:
   - /app
   - /build
   - package.json
-artifactName: janta-${version}.${ext}
+artifactName: offline-${version}.${ext}
 mac:
   category: public.app-category.productivity
   provisioningProfile: embedded.provisionprofile

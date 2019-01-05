@@ -25,7 +25,7 @@
     "react:build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
     "clean": "rm -rf ./release",
     "electron:start": "wait-on http-get://localhost:3000/ && electron . --serve",
-    "electron:build": "electron-builder build -m"
+    "electron:build": "electron-builder build -m --publish always"
   },
   "eslintConfig": {
     "extends": "react-app"
